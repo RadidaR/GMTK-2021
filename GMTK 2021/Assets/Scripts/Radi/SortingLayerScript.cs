@@ -8,19 +8,71 @@ public class SortingLayerScript : MonoBehaviour
 
     string laneLayer;
 
+    public List<int> originalOrder;
+    SpriteRenderer[] sprites;
+
+    private void Awake()
+    {
+        sprites = gameObject.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer renderer in sprites)
+        {
+            originalOrder.Add(renderer.sortingOrder);
+        }
+    }
+
+    private void Start()
+    {
+        UpdateSortingLayer();
+        if (gameObject.tag != "Player")
+        {
+            AssignSortingOrder();
+        }
+    }
     void Update()
     {
-        int lane = Mathf.RoundToInt(transform.position.y / gameData.laneDistance);
-        laneLayer = "Lane " + lane.ToString();
+        if (gameObject.tag == "Player") 
+        {
+            UpdateSortingLayer();
+        }
+
+    }
+
+    void UpdateSortingLayer()
+    {
+        //int lane = Mathf.RoundToInt(transform.position.y / gameData.laneDistance);
+        int sortingLayer = lane();
+        laneLayer = "Lane " + sortingLayer.ToString();
 
 
-        SpriteRenderer[] sprites = gameObject.GetComponentsInChildren<SpriteRenderer>();
+        //sprites = gameObject.GetComponentsInChildren<SpriteRenderer>();
 
         foreach (SpriteRenderer renderer in sprites)
         {
             renderer.sortingLayerName = laneLayer;
-
         }
+    }
+
+    void AssignSortingOrder()
+    {
+        int layer = lane();
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            if ((transform.position.y - (gameData.laneDistance * layer) > 0))
+            {
+                sprites[i].sortingOrder = originalOrder[i] - 15;
+            }
+            else if ((transform.position.y - (gameData.laneDistance * layer) < 0))
+            {
+                sprites[i].sortingOrder = originalOrder[i] + 15;
+            }
+        }
+    }
+
+    public int lane()
+    {
+        int laneCalculation = Mathf.RoundToInt(transform.position.y / gameData.laneDistance);
+        return laneCalculation;
     }
 
 
