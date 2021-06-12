@@ -13,7 +13,7 @@ public class ControlScript : MonoBehaviour
 
     public GameData gameData;
     //public InputData inputData;
-    bool walking;
+    public bool walking;
 
     public GameEvent eJump;
     public GameEvent eDuck;
@@ -23,6 +23,8 @@ public class ControlScript : MonoBehaviour
     public GameEvent eWrongButtonPressed;
     public GameEvent eTopControl;
     public GameEvent eBotControl;
+    public GameEvent eMoving;
+    public GameEvent eStopWalking;
 
     public int qteButtonsCount;
     public List<string> qteButtons;
@@ -40,7 +42,9 @@ public class ControlScript : MonoBehaviour
         inputActions = new ActionMap();
 
         inputActions.Gameplay.Horizontal.performed += ctx => HorizontalPressed();
+        inputActions.Gameplay.Horizontal.performed += ctx => eMoving.Raise();
         inputActions.Gameplay.Horizontal.canceled += ctx => walking = false;
+        inputActions.Gameplay.Horizontal.canceled += ctx => StopWalking();
 
         //inputActions.Gameplay.Vertical.performed += ctx => SwitchLanes();
         inputActions.Gameplay.Vertical.performed += ctx => VerticalPressed();
@@ -92,11 +96,21 @@ public class ControlScript : MonoBehaviour
 
                 rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
 
-                //if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
                 //{
+                //    StopWalking();
+                //}
+                //else 
+                //{
+                //    //eWalk.Raise();
                 //}
             }
         }
+    }
+
+    void StopWalking()
+    {
+        eStopWalking.Raise();
     }
 
     void SpacePressed()
@@ -257,6 +271,7 @@ public class ControlScript : MonoBehaviour
             {
                 if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
                 {
+                    eMoving.Raise();
                     FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
                 }
 
@@ -276,7 +291,7 @@ public class ControlScript : MonoBehaviour
         }
         else if (newScale > 0)
         {
-            scale.x = -scale.x;
+            scale.x = -Mathf.Abs(scale.x);
         }
 
         transform.localScale = scale;

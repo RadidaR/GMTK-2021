@@ -225,6 +225,8 @@ GameObject:
   - component: {fileID: 1383838230647864786}
   - component: {fileID: 1383838230647864780}
   - component: {fileID: 683506742316844539}
+  - component: {fileID: 233709340}
+  - component: {fileID: 233709341}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -275,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf86df7fd9964e748b482a95338f7fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
   eJump: {fileID: 11400000, guid: 2982be3600119764dbd45d65c5598fa9, type: 2}
   eDuck: {fileID: 11400000, guid: 69dc6e059855cd043a2870cf475ba535, type: 2}
@@ -288,6 +291,12 @@ MonoBehaviour:
   qteButtons: []
   timeToPressQTE: 5
   qteTimer: 0
+  laneLayers:
+    serializedVersion: 2
+    m_Bits: 1984
+  markerPrefab: {fileID: 5333043975127935331, guid: 670190d56af506940b4b2d5549354977, type: 3}
+  currentMarkers: 0
+  markers: []
 --- !u!50 &683506742316844520
 Rigidbody2D:
   serializedVersion: 4
@@ -308,7 +317,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1383838230647864786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +364,32 @@ MonoBehaviour:
   chestplate: {fileID: 5490139211925444368}
   gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
   transparency: 0.425
+--- !u!114 &233709340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683506742316844532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce91b73a41c30af42ab453733725db9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
+--- !u!114 &233709341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683506742316844532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e11e99c44d32141b5d023666f01bc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
 --- !u!1 &946924345155320725
 GameObject:
   m_ObjectHideFlags: 0
