@@ -65,6 +65,22 @@ public class @ActionMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Mark"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7d80c2a-d292-43e4-9c6e-e2f236dcd5e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""379c4cd3-c5e1-40ac-94e7-a573851edf70"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -243,6 +259,28 @@ public class @ActionMap : IInputActionCollection, IDisposable
                     ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e005412-a73f-46fe-a97b-060d41077b27"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mark"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4ac5595-a17c-475e-a45b-7e9423a4e5cb"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +295,8 @@ public class @ActionMap : IInputActionCollection, IDisposable
         m_Gameplay_SwitchControl = m_Gameplay.FindAction("Switch Control", throwIfNotFound: true);
         m_Gameplay_Duck = m_Gameplay.FindAction("Duck", throwIfNotFound: true);
         m_Gameplay_Enter = m_Gameplay.FindAction("Enter", throwIfNotFound: true);
+        m_Gameplay_Mark = m_Gameplay.FindAction("Mark", throwIfNotFound: true);
+        m_Gameplay_MousePosition = m_Gameplay.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +352,8 @@ public class @ActionMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_SwitchControl;
     private readonly InputAction m_Gameplay_Duck;
     private readonly InputAction m_Gameplay_Enter;
+    private readonly InputAction m_Gameplay_Mark;
+    private readonly InputAction m_Gameplay_MousePosition;
     public struct GameplayActions
     {
         private @ActionMap m_Wrapper;
@@ -322,6 +364,8 @@ public class @ActionMap : IInputActionCollection, IDisposable
         public InputAction @SwitchControl => m_Wrapper.m_Gameplay_SwitchControl;
         public InputAction @Duck => m_Wrapper.m_Gameplay_Duck;
         public InputAction @Enter => m_Wrapper.m_Gameplay_Enter;
+        public InputAction @Mark => m_Wrapper.m_Gameplay_Mark;
+        public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -349,6 +393,12 @@ public class @ActionMap : IInputActionCollection, IDisposable
                 @Enter.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
                 @Enter.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
                 @Enter.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Mark.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMark;
+                @Mark.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMark;
+                @Mark.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMark;
+                @MousePosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -371,6 +421,12 @@ public class @ActionMap : IInputActionCollection, IDisposable
                 @Enter.started += instance.OnEnter;
                 @Enter.performed += instance.OnEnter;
                 @Enter.canceled += instance.OnEnter;
+                @Mark.started += instance.OnMark;
+                @Mark.performed += instance.OnMark;
+                @Mark.canceled += instance.OnMark;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -383,5 +439,7 @@ public class @ActionMap : IInputActionCollection, IDisposable
         void OnSwitchControl(InputAction.CallbackContext context);
         void OnDuck(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
+        void OnMark(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

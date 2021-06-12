@@ -9,6 +9,8 @@ public class ControlScript : MonoBehaviour
 
     Rigidbody2D rigidBody;
 
+    public Camera cam;
+
     public GameData gameData;
     //public InputData inputData;
     bool walking;
@@ -26,6 +28,11 @@ public class ControlScript : MonoBehaviour
     public List<string> qteButtons;
     public float timeToPressQTE;
     public float qteTimer;
+
+    public LayerMask laneLayers;
+    public GameObject markerPrefab;
+    public int currentMarkers;
+    public List<GameObject> markers;
 
     private void Awake()
     {
@@ -45,6 +52,8 @@ public class ControlScript : MonoBehaviour
         inputActions.Gameplay.SwitchControl.performed += ctx => SwitchPressed();
 
         inputActions.Gameplay.Enter.performed += ctx => EnterPressed();
+
+        inputActions.Gameplay.Mark.performed += ctx => Clicked();
     }
 
     private void FixedUpdate()
@@ -260,7 +269,16 @@ public class ControlScript : MonoBehaviour
     void FlipX(float newScale)
     {
         Vector2 scale = transform.localScale;
-        scale.x = newScale;
+
+        if (newScale < 0)
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+        else if (newScale > 0)
+        {
+            scale.x = -scale.x;
+        }
+
         transform.localScale = scale;
     }
 
@@ -290,10 +308,44 @@ public class ControlScript : MonoBehaviour
 
     void WrongButtonPressed()
     {
-        //Debug.Log("Wrong button");
         qteButtons.Clear();
         eWrongButtonPressed.Raise();
         StartQuickTimeEvent();
+    }
+
+    void Clicked()
+    {
+        if (!gameData.quickTimeEvent)
+        {
+            if (!gameData.botControl)
+            {
+                currentMarkers = markers.Count;
+
+                Vector2 click = cam.ScreenToWorldPoint(inputActions.Gameplay.MousePosition.ReadValue<Vector2>());
+
+                Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 1);
+
+                if (clickedOn.Length > 0)
+                {
+                    if (currentMarkers < gameData.maxMarkers)
+                    {
+                        foreach (Collider2D target in clickedOn)
+                        {
+                            if (target.gameObject.GetComponentInParent<ControlScript>() == null)
+                            {
+                                Debug.Log("Here");
+                                markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+
+                            }
+
+                        }
+                    }
+                    currentMarkers = markers.Count;
+
+
+                }
+            }
+        }
     }
 
     private void OnEnable()

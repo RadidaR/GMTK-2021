@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Game Data
   m_EditorClassIdentifier: 
   botControl: 1
-  switching: 0
+  quickTimeEvent: 0
+  numberOfLanes: 6
+  markerDuration: 4
+  maxMarkers: 3
   moveSpeed: 0.1
   laneDistance: 2.5
