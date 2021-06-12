@@ -77,9 +77,9 @@ public class ControlScript : MonoBehaviour
         {
             if (gameData.botControl)
             {
-                Vector3 flip = transform.localScale;
-                flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
-                transform.localScale = flip;
+                //Vector3 flip = transform.localScale;
+                //flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
+                //transform.localScale = flip;
 
                 rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
 
@@ -246,10 +246,22 @@ public class ControlScript : MonoBehaviour
         {
             if (gameData.botControl)
             {
+                if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                {
+                    FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
+                }
+
                 walking = true;
             }
         }
 
+    }
+
+    void FlipX(float newScale)
+    {
+        Vector2 scale = transform.localScale;
+        scale.x = newScale;
+        transform.localScale = scale;
     }
 
     void QuickTimeButtonPressed()
