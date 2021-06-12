@@ -41,3 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Lane 4
+    uniqueID: 382504789
+    locked: 0
+  - name: Lane 3
+    uniqueID: 2282847055
+    locked: 0
+  - name: Lane 2
+    uniqueID: 710885173
+    locked: 0
+  - name: Lane 1
+    uniqueID: 3615621817
+    locked: 0
+  - name: Lane 0
+    uniqueID: 3044051371
+    locked: 0
+  - name: Canvas
+    uniqueID: 1294751717
+    locked: 0
