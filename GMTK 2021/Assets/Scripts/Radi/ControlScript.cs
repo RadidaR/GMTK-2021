@@ -77,7 +77,15 @@ public class ControlScript : MonoBehaviour
         {
             if (gameData.botControl)
             {
+                Vector3 flip = transform.localScale;
+                flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
+                transform.localScale = flip;
+
                 rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
+
+                //if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                //{
+                //}
             }
         }
     }
@@ -166,7 +174,8 @@ public class ControlScript : MonoBehaviour
             if (gameData.botControl)
             {
                 rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
-                eSwitchedLanes.Raise();
+                //eSwitchedLanes.Raise();
+                StartCoroutine(SwitchedLanes());
             }
         }
         else
@@ -194,6 +203,12 @@ public class ControlScript : MonoBehaviour
                 WrongButtonPressed();
             }
         }
+    }
+
+    IEnumerator SwitchedLanes()
+    {
+        yield return new WaitForSecondsRealtime(0.125f);
+        eSwitchedLanes.Raise();
     }
 
     void HorizontalPressed()
