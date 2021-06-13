@@ -36,6 +36,9 @@ public class ControlScript : MonoBehaviour
     public int currentMarkers;
     public List<GameObject> markers;
 
+    //public Collider2D topCollider;
+    //public Collider2D botCollider;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -110,7 +113,13 @@ public class ControlScript : MonoBehaviour
 
     void StopWalking()
     {
-        eStopWalking.Raise();
+        if (!gameData.quickTimeEvent)
+        {
+            if (gameData.botControl)
+            {
+                eStopWalking.Raise();
+            }
+        }
     }
 
     void SpacePressed()

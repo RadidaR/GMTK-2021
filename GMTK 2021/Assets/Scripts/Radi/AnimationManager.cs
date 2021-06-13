@@ -6,6 +6,8 @@ public class AnimationManager : MonoBehaviour
 {
     public GameData gameData;
 
+    public GameEvent eResetColliders;
+
     Animator anim;
     //Animation[] animations;
     string currentAnimation;
@@ -22,6 +24,11 @@ public class AnimationManager : MonoBehaviour
     private void Update()
     {
         anim.SetBool("Walking", GetComponentInParent<ControlScript>().walking);
+    }
+
+    public void ResetColliders()
+    {
+        eResetColliders.Raise();
     }
 
     public void PlayAnimation(string newAnimation)
