@@ -16,4 +16,14 @@ public class TutorialData : ScriptableObject
     public string text7;
     public string text8;
     public string text9;
+
+    public string task1Text1;
+    public string task1Text2;
+    public string task1Text3;
+
+    public string task2Text1;
+    public string task2Text2;
+    public string task2Text3;
+
+
 }

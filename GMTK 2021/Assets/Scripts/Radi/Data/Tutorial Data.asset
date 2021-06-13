@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1406cb0a711b684282666e4447e880f, type: 3}
   m_Name: Tutorial Data
   m_EditorClassIdentifier: 
-  tutorialCompleted: 0
-  shortTime: 2
-  mediumTime: 5
+  tutorialCompleted: 1
+  shortTime: 2.5
+  mediumTime: 4
   longTime: 10
-  text1: intro
-  text2: move WASD
-  text3: switch G
-  text4: complete QTE
-  text5: back-out ENTER
-  text6: mark CLICK
-  text7: 
-  text8: 
-  text9: 
+  text1: "We are the tribe\u2019s only hope of victory!"
+  text2: 'Use arrow keys or WASD to move. Try not to bump into anything! '
+  text3: 'Press G to switch to the other goblin for a better view. '
+  text4: "Complete the sequence to switch. Quick, you don\u2019t have all day! "
+  text5: 'You can cancel the switch by pressing ENTER. '
+  text6: Press G and complete the sequence to switch goblins.
+  text7: 'You can see much better from here! '
+  text8: 'You can also click on things you want to avoid to mark them! '
+  text9: 'Marks remain visible for a while, even if you switch to the other goblin. '
+  task1Text1: We need to find the key!
+  task1Text2: "Let\u2019s go look over there."
+  task1Text3: There is the key. We gotta grab it!
+  task2Text1: It's guarded!
+  task2Text2: We will need a diversion.
+  task2Text3: 

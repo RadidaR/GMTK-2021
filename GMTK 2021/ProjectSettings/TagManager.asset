@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EnemySpawn
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -12,17 +12,6 @@ TagManager:
   - 
   - Water
   - UI
-<<<<<<< Updated upstream
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-=======
   - Lane 0
   - Lane 1
   - Lane 2
@@ -31,8 +20,7 @@ TagManager:
   - Lane 5
   - Lane 6
   - Lane 7
-  - IndicatorLayer
->>>>>>> Stashed changes
+  - Indicator Layer
   - 
   - 
   - 
@@ -54,33 +42,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Lane 8
-    uniqueID: 1323683199
-    locked: 0
   - name: Lane 7
-    uniqueID: 1301783687
+    uniqueID: 2027699327
     locked: 0
   - name: Lane 6
-    uniqueID: 2039362435
+    uniqueID: 2587885203
     locked: 0
   - name: Lane 5
-    uniqueID: 4171593611
+    uniqueID: 2619901937
     locked: 0
   - name: Lane 4
-    uniqueID: 382504789
+    uniqueID: 3398165583
     locked: 0
   - name: Lane 3
-    uniqueID: 2282847055
+    uniqueID: 3002348259
     locked: 0
   - name: Lane 2
-    uniqueID: 710885173
+    uniqueID: 2365396471
     locked: 0
   - name: Lane 1
-    uniqueID: 3615621817
+    uniqueID: 1987015081
     locked: 0
   - name: Lane 0
-    uniqueID: 3044051371
+    uniqueID: 2903506839
     locked: 0
   - name: Canvas
-    uniqueID: 1294751717
+    uniqueID: 3877973583
     locked: 0

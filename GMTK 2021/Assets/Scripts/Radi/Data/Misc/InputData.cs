@@ -7,6 +7,8 @@ public class InputData : ScriptableObject, ISerializationCallbackReceiver
     public float verticalInput;
     public float spaceInput;
     public float switchInput;
+    public float enterInput; 
+    public float clickInput; 
 
     public void ResetValues()
     {
@@ -14,6 +16,8 @@ public class InputData : ScriptableObject, ISerializationCallbackReceiver
         verticalInput = 0;
         spaceInput = 0;
         switchInput = 0;
+        enterInput = 0;
+        clickInput = 0;
     }
 
     public void OnAfterDeserialize()

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Game Data
   m_EditorClassIdentifier: 
   startingHealth: 5
-  currentHealth: 0
-  botControl: 1
+  currentHealth: 5
+  botControl: 0
   quickTimeEvent: 0
-  invincible: 0
+  invincible: 1
   hurt: 0
   frozen: 1
   hurtDuration: 2

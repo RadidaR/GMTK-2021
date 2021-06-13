@@ -34,6 +34,14 @@ public class InputScript : MonoBehaviour
         
         inputActions.Gameplay.SwitchControl.performed += ctx => inputData.switchInput = inputActions.Gameplay.SwitchControl.ReadValue<float>();
         inputActions.Gameplay.SwitchControl.canceled += ctx => inputData.switchInput = inputActions.Gameplay.SwitchControl.ReadValue<float>();
+
+        inputActions.Gameplay.Enter.performed += ctx => inputData.enterInput = inputActions.Gameplay.Enter.ReadValue<float>();
+        inputActions.Gameplay.Enter.canceled += ctx => inputData.enterInput = inputActions.Gameplay.Enter.ReadValue<float>();
+        
+        inputActions.Gameplay.Mark.performed += ctx => inputData.clickInput = inputActions.Gameplay.Mark.ReadValue<float>();
+        inputActions.Gameplay.Mark.canceled += ctx => inputData.clickInput = inputActions.Gameplay.Mark.ReadValue<float>();
+
+
     }
 
     private void OnEnable()
