@@ -13,7 +13,7 @@ public class MarkerScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         //alpha = renderer.color;
         timer = gameData.markerDuration;
     }
