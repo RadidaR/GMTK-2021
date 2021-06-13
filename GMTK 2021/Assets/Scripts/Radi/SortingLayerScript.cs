@@ -56,15 +56,25 @@ public class SortingLayerScript : MonoBehaviour
     void AssignSortingOrder()
     {
         int layer = lane();
-        for (int i = 0; i < sprites.Length; i++)
+        if (gameObject.tag == "Ground")
         {
-            if ((transform.position.y - (gameData.laneDistance * layer) > 0))
+            foreach (SpriteRenderer renderer in sprites)
             {
-                sprites[i].sortingOrder = originalOrder[i] - 15;
+                renderer.sortingOrder = -150;
             }
-            else if ((transform.position.y - (gameData.laneDistance * layer) < 0))
+        }
+        else
+        {
+            for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[i].sortingOrder = originalOrder[i] + 15;
+                if ((transform.position.y - (gameData.laneDistance * layer) > 0))
+                {
+                    sprites[i].sortingOrder = originalOrder[i] - 30;
+                }
+                else if ((transform.position.y - (gameData.laneDistance * layer) < 0))
+                {
+                    sprites[i].sortingOrder = originalOrder[i] + 30;
+                }
             }
         }
     }

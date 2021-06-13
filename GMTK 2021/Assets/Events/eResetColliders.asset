@@ -9,16 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff50ced918d36a429855ce9b4344c35, type: 3}
-  m_Name: Game Data
+  m_Script: {fileID: 11500000, guid: 15b54ce61a932564d89ab5ab8006200d, type: 3}
+  m_Name: eResetColliders
   m_EditorClassIdentifier: 
-  botControl: 1
-  quickTimeEvent: 0
-  invincible: 0
-  hurt: 0
-  hurtDuration: 0
-  numberOfLanes: 6
-  markerDuration: 12
-  maxMarkers: 3
-  moveSpeed: 0.1
-  laneDistance: 2.5

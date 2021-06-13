@@ -9,9 +9,11 @@ public class ControlScript : MonoBehaviour
 
     Rigidbody2D rigidBody;
 
+    public Camera cam;
+
     public GameData gameData;
     //public InputData inputData;
-    bool walking;
+    public bool walking;
 
     public GameEvent eJump;
     public GameEvent eDuck;
@@ -21,11 +23,21 @@ public class ControlScript : MonoBehaviour
     public GameEvent eWrongButtonPressed;
     public GameEvent eTopControl;
     public GameEvent eBotControl;
+    public GameEvent eMoving;
+    public GameEvent eStopWalking;
 
     public int qteButtonsCount;
     public List<string> qteButtons;
     public float timeToPressQTE;
     public float qteTimer;
+
+    public LayerMask laneLayers;
+    public GameObject markerPrefab;
+    public int currentMarkers;
+    public List<GameObject> markers;
+
+    //public Collider2D topCollider;
+    //public Collider2D botCollider;
 
     private void Awake()
     {
@@ -33,7 +45,9 @@ public class ControlScript : MonoBehaviour
         inputActions = new ActionMap();
 
         inputActions.Gameplay.Horizontal.performed += ctx => HorizontalPressed();
+        inputActions.Gameplay.Horizontal.performed += ctx => eMoving.Raise();
         inputActions.Gameplay.Horizontal.canceled += ctx => walking = false;
+        inputActions.Gameplay.Horizontal.canceled += ctx => StopWalking();
 
         //inputActions.Gameplay.Vertical.performed += ctx => SwitchLanes();
         inputActions.Gameplay.Vertical.performed += ctx => VerticalPressed();
@@ -45,6 +59,8 @@ public class ControlScript : MonoBehaviour
         inputActions.Gameplay.SwitchControl.performed += ctx => SwitchPressed();
 
         inputActions.Gameplay.Enter.performed += ctx => EnterPressed();
+
+        inputActions.Gameplay.Mark.performed += ctx => Clicked();
     }
 
     private void FixedUpdate()
@@ -77,7 +93,31 @@ public class ControlScript : MonoBehaviour
         {
             if (gameData.botControl)
             {
+                //Vector3 flip = transform.localScale;
+                //flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
+                //transform.localScale = flip;
+
                 rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
+
+                //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
+                //{
+                //    StopWalking();
+                //}
+                //else 
+                //{
+                //    //eWalk.Raise();
+                //}
+            }
+        }
+    }
+
+    void StopWalking()
+    {
+        if (!gameData.quickTimeEvent)
+        {
+            if (gameData.botControl)
+            {
+                eStopWalking.Raise();
             }
         }
     }
@@ -166,7 +206,8 @@ public class ControlScript : MonoBehaviour
             if (gameData.botControl)
             {
                 rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
-                eSwitchedLanes.Raise();
+                //eSwitchedLanes.Raise();
+                StartCoroutine(SwitchedLanes());
             }
         }
         else
@@ -194,6 +235,12 @@ public class ControlScript : MonoBehaviour
                 WrongButtonPressed();
             }
         }
+    }
+
+    IEnumerator SwitchedLanes()
+    {
+        yield return new WaitForSecondsRealtime(0.125f);
+        eSwitchedLanes.Raise();
     }
 
     void HorizontalPressed()
@@ -231,10 +278,32 @@ public class ControlScript : MonoBehaviour
         {
             if (gameData.botControl)
             {
+                if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                {
+                    eMoving.Raise();
+                    FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
+                }
+
                 walking = true;
             }
         }
 
+    }
+
+    void FlipX(float newScale)
+    {
+        Vector2 scale = transform.localScale;
+
+        if (newScale < 0)
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+        else if (newScale > 0)
+        {
+            scale.x = -Mathf.Abs(scale.x);
+        }
+
+        transform.localScale = scale;
     }
 
     void QuickTimeButtonPressed()
@@ -263,10 +332,44 @@ public class ControlScript : MonoBehaviour
 
     void WrongButtonPressed()
     {
-        //Debug.Log("Wrong button");
         qteButtons.Clear();
         eWrongButtonPressed.Raise();
         StartQuickTimeEvent();
+    }
+
+    void Clicked()
+    {
+        if (!gameData.quickTimeEvent)
+        {
+            if (!gameData.botControl)
+            {
+                currentMarkers = markers.Count;
+
+                Vector2 click = cam.ScreenToWorldPoint(inputActions.Gameplay.MousePosition.ReadValue<Vector2>());
+
+                Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 1);
+
+                if (clickedOn.Length > 0)
+                {
+                    if (currentMarkers < gameData.maxMarkers)
+                    {
+                        foreach (Collider2D target in clickedOn)
+                        {
+                            if (target.gameObject.GetComponentInParent<ControlScript>() == null)
+                            {
+                                Debug.Log("Here");
+                                markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+
+                            }
+
+                        }
+                    }
+                    currentMarkers = markers.Count;
+
+
+                }
+            }
+        }
     }
 
     private void OnEnable()

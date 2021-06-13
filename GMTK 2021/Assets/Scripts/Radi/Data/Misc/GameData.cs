@@ -5,6 +5,15 @@ public class GameData : ScriptableObject, ISerializationCallbackReceiver
 {
     public bool botControl;
     public bool quickTimeEvent;
+    public bool invincible;
+    public bool hurt;
+
+    public float hurtDuration;
+
+    public int numberOfLanes;
+
+    public float markerDuration;
+    public float maxMarkers;
     
     public float moveSpeed;
     public float laneDistance;
