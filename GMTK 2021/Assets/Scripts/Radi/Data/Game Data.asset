@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff50ced918d36a429855ce9b4344c35, type: 3}
   m_Name: Game Data
   m_EditorClassIdentifier: 
+  startingHealth: 5
+  currentHealth: 0
   botControl: 1
   quickTimeEvent: 0
   invincible: 0
   hurt: 0
-  hurtDuration: 0
+  frozen: 1
+  hurtDuration: 2
   numberOfLanes: 6
   markerDuration: 12
   maxMarkers: 3

@@ -25,6 +25,7 @@ public class ControlScript : MonoBehaviour
     public GameEvent eBotControl;
     public GameEvent eMoving;
     public GameEvent eStopWalking;
+    public GameEvent eInteract;
 
     public int qteButtonsCount;
     public List<string> qteButtons;
@@ -65,90 +66,121 @@ public class ControlScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (qteTimer > 0)
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            if (gameData.quickTimeEvent)
             {
-                qteTimer -= Time.fixedDeltaTime;
+                if (qteTimer > 0)
+                {
+                    qteTimer -= Time.fixedDeltaTime;
+                }
+                else if (qteTimer <= 0)
+                {
+                    qteTimer = 0;
+                    StartQuickTimeEvent();
+                }
             }
-            else if (qteTimer <= 0)
+
+            if (gameData.botControl)
             {
-                qteTimer = 0;
-                StartQuickTimeEvent();
+                if (walking)
+                {
+                    Walk();
+                }
             }
         }
-
-        if (gameData.botControl)
+        else
         {
-            if (walking)
-            {
-                Walk();
-            }            
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 
     void Walk()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                //Vector3 flip = transform.localScale;
-                //flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
-                //transform.localScale = flip;
+                if (gameData.botControl)
+                {
+                    //Vector3 flip = transform.localScale;
+                    //flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
+                    //transform.localScale = flip;
 
-                rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
+                    rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
 
-                //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
-                //{
-                //    StopWalking();
-                //}
-                //else 
-                //{
-                //    //eWalk.Raise();
-                //}
+                    //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
+                    //{
+                    //    StopWalking();
+                    //}
+                    //else 
+                    //{
+                    //    //eWalk.Raise();
+                    //}
+                }
             }
         }
     }
 
     void StopWalking()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                eStopWalking.Raise();
+                if (gameData.botControl)
+                {
+                    eStopWalking.Raise();
+                }
             }
         }
     }
 
     void SpacePressed()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                eJump.Raise();
+                if (gameData.botControl)
+                {
+                    eJump.Raise();
+                }
+                else
+                {
+                    eInteract.Raise();
+                }
             }
         }
     }
     void Duck()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                eDuck.Raise();
+                if (gameData.botControl)
+                {
+                    if (walking)
+                    {
+                        eDuck.Raise();
+                    }
+                }
             }
         }
     }
 
     void SwitchPressed()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            gameData.quickTimeEvent = true;
-            StartQuickTimeEvent();
+            if (!gameData.quickTimeEvent)
+            {
+                gameData.quickTimeEvent = true;
+                StartQuickTimeEvent();
+            }
         }
     }
 
@@ -201,38 +233,41 @@ public class ControlScript : MonoBehaviour
 
     void VerticalPressed()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
-                //eSwitchedLanes.Raise();
-                StartCoroutine(SwitchedLanes());
-            }
-        }
-        else
-        {
-            string direction;
-            if (inputActions.Gameplay.Vertical.ReadValue<float>() == -1)
-            {
-                direction = "Down";
-            }
-            else if (inputActions.Gameplay.Vertical.ReadValue<float>() == 1)
-            {
-                direction = "Up";
+                if (gameData.botControl)
+                {
+                    rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
+                    //eSwitchedLanes.Raise();
+                    StartCoroutine(SwitchedLanes());
+                }
             }
             else
             {
-                direction = null;
-            }
+                string direction;
+                if (inputActions.Gameplay.Vertical.ReadValue<float>() == -1)
+                {
+                    direction = "Down";
+                }
+                else if (inputActions.Gameplay.Vertical.ReadValue<float>() == 1)
+                {
+                    direction = "Up";
+                }
+                else
+                {
+                    direction = null;
+                }
 
-            if (direction == qteButtons[0])
-            {
-                QuickTimeButtonPressed();
-            }
-            else
-            {
-                WrongButtonPressed();
+                if (direction == qteButtons[0])
+                {
+                    QuickTimeButtonPressed();
+                }
+                else
+                {
+                    WrongButtonPressed();
+                }
             }
         }
     }
@@ -245,46 +280,49 @@ public class ControlScript : MonoBehaviour
 
     void HorizontalPressed()
     {
-        if (gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            //Debug.Log("Switching");
-            string direction;
-            if (inputActions.Gameplay.Horizontal.ReadValue<float>() == -1)
+            if (gameData.quickTimeEvent)
             {
-                direction = "Left";
-            }
-            else if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 1)
-            {
-                direction = "Right";
-            }
-            else
-            {
-                direction = null;
-            }
-            //Debug.Log(direction + " direction");
-            //Debug.Log(switchButtons[0] + " switch Button");
-
-
-            if (direction == qteButtons[0])
-            {
-                QuickTimeButtonPressed();
-            }
-            else
-            {
-                WrongButtonPressed();
-            }
-        }
-        else
-        {
-            if (gameData.botControl)
-            {
-                if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                //Debug.Log("Switching");
+                string direction;
+                if (inputActions.Gameplay.Horizontal.ReadValue<float>() == -1)
                 {
-                    eMoving.Raise();
-                    FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
+                    direction = "Left";
                 }
+                else if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 1)
+                {
+                    direction = "Right";
+                }
+                else
+                {
+                    direction = null;
+                }
+                //Debug.Log(direction + " direction");
+                //Debug.Log(switchButtons[0] + " switch Button");
 
-                walking = true;
+
+                if (direction == qteButtons[0])
+                {
+                    QuickTimeButtonPressed();
+                }
+                else
+                {
+                    WrongButtonPressed();
+                }
+            }
+            else
+            {
+                if (gameData.botControl)
+                {
+                    if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
+                    {
+                        eMoving.Raise();
+                        FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
+                    }
+
+                    walking = true;
+                }
             }
         }
 
@@ -339,34 +377,36 @@ public class ControlScript : MonoBehaviour
 
     void Clicked()
     {
-        if (!gameData.quickTimeEvent)
+        if (!gameData.frozen)
         {
-            if (!gameData.botControl)
+            if (!gameData.quickTimeEvent)
             {
-                currentMarkers = markers.Count;
-
-                Vector2 click = cam.ScreenToWorldPoint(inputActions.Gameplay.MousePosition.ReadValue<Vector2>());
-
-                Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 1);
-
-                if (clickedOn.Length > 0)
+                if (!gameData.botControl)
                 {
-                    if (currentMarkers < gameData.maxMarkers)
-                    {
-                        foreach (Collider2D target in clickedOn)
-                        {
-                            if (target.gameObject.GetComponentInParent<ControlScript>() == null)
-                            {
-                                Debug.Log("Here");
-                                markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
-
-                            }
-
-                        }
-                    }
                     currentMarkers = markers.Count;
 
+                    Vector2 click = cam.ScreenToWorldPoint(inputActions.Gameplay.MousePosition.ReadValue<Vector2>());
 
+                    Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 1);
+
+                    if (clickedOn.Length > 0)
+                    {
+                        if (currentMarkers < gameData.maxMarkers)
+                        {
+                            foreach (Collider2D target in clickedOn)
+                            {
+                                if (target.gameObject.GetComponentInParent<ControlScript>() == null)
+                                {
+                                    markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+
+                                }
+
+                            }
+                        }
+                        currentMarkers = markers.Count;
+
+
+                    }
                 }
             }
         }

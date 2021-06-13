@@ -12,6 +12,7 @@ TagManager:
   - 
   - Water
   - UI
+<<<<<<< Updated upstream
   - 
   - 
   - 
@@ -21,6 +22,17 @@ TagManager:
   - 
   - 
   - 
+=======
+  - Lane 0
+  - Lane 1
+  - Lane 2
+  - Lane 3
+  - Lane 4
+  - Lane 5
+  - Lane 6
+  - Lane 7
+  - IndicatorLayer
+>>>>>>> Stashed changes
   - 
   - 
   - 
@@ -41,6 +53,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lane 8
+    uniqueID: 1323683199
+    locked: 0
+  - name: Lane 7
+    uniqueID: 1301783687
+    locked: 0
+  - name: Lane 6
+    uniqueID: 2039362435
+    locked: 0
+  - name: Lane 5
+    uniqueID: 4171593611
     locked: 0
   - name: Lane 4
     uniqueID: 382504789

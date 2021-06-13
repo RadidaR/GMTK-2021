@@ -20,44 +20,64 @@ public class PlayerSpritesScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameData.invincible)
+        if (!gameData.frozen)
         {
-            SpriteRenderer[] chestplateSprites = chestplate.GetComponentsInChildren<SpriteRenderer>();
-            SpriteRenderer[] helmetSprites = helmet.GetComponentsInChildren<SpriteRenderer>();
-            if (gameData.botControl)
+            if (!gameData.invincible)
             {
+                SpriteRenderer[] chestplateSprites = chestplate.GetComponentsInChildren<SpriteRenderer>();
+                SpriteRenderer[] helmetSprites = helmet.GetComponentsInChildren<SpriteRenderer>();
 
-                foreach (SpriteRenderer renderer in chestplateSprites)
+                if (gameData.botControl)
                 {
-                    Color transparent = renderer.color;
-                    transparent.a = transparency;
-                    renderer.color = transparent;
+
+                    foreach (SpriteRenderer renderer in chestplateSprites)
+                    {
+                        Color transparent = renderer.color;
+                        transparent.a = transparency;
+                        renderer.color = transparent;
+                    }
+
+                    foreach (SpriteRenderer renderer in helmetSprites)
+                    {
+                        Color transparent = renderer.color;
+                        transparent.a = 1f;
+                        renderer.color = transparent;
+                    }
                 }
-
-                foreach (SpriteRenderer renderer in helmetSprites)
+                else
                 {
-                    Color transparent = renderer.color;
-                    transparent.a = 1f;
-                    renderer.color = transparent;
+                    foreach (SpriteRenderer renderer in chestplateSprites)
+                    {
+                        Color transparent = renderer.color;
+                        transparent.a = 1f;
+                        renderer.color = transparent;
+                    }
+
+                    foreach (SpriteRenderer renderer in helmetSprites)
+                    {
+                        Color transparent = renderer.color;
+                        transparent.a = transparency;
+                        renderer.color = transparent;
+                    }
+
                 }
             }
-            else
-            {
-                foreach (SpriteRenderer renderer in chestplateSprites)
-                {
-                    Color transparent = renderer.color;
-                    transparent.a = 1f;
-                    renderer.color = transparent;
-                }
+        }
+    }
 
-                foreach (SpriteRenderer renderer in helmetSprites)
-                {
-                    Color transparent = renderer.color;
-                    transparent.a = transparency;
-                    renderer.color = transparent;
-                }
+    public void RestoreSprites()
+    {
+        SpriteRenderer[] chestplateSprites = chestplate.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] helmetSprites = helmet.GetComponentsInChildren<SpriteRenderer>();
 
-            }
+        foreach (SpriteRenderer renderer in chestplateSprites)
+        {
+            renderer.color = Color.white;
+        }
+
+        foreach (SpriteRenderer renderer in helmetSprites)
+        {
+            renderer.color = Color.white;
         }
     }
 }

@@ -9,11 +9,11 @@ public class MarkerScript : MonoBehaviour
     public float timer;
 
     //public Color alpha;
-    SpriteRenderer renderer;
+    SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Awake()
     {
-        renderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         //alpha = renderer.color;
         timer = gameData.markerDuration;
     }
@@ -34,9 +34,9 @@ public class MarkerScript : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(Time.deltaTime);
             timer -= Time.deltaTime;
-            Color transparency = renderer.color;
+            Color transparency = spriteRenderer.color;
             transparency.a = Mathf.Lerp(0, 1, timer / gameData.markerDuration);
-            renderer.color = transparency;
+            spriteRenderer.color = transparency;
             if (timer <= 0)
             {
                 break;

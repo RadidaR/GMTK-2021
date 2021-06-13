@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1406cb0a711b684282666e4447e880f, type: 3}
+  m_Name: Tutorial Data
+  m_EditorClassIdentifier: 
+  tutorialCompleted: 0
+  shortTime: 2
+  mediumTime: 5
+  longTime: 10
+  text1: intro
+  text2: move WASD
+  text3: switch G
+  text4: complete QTE
+  text5: back-out ENTER
+  text6: mark CLICK
+  text7: 
+  text8: 
+  text9: 
