@@ -9,8 +9,12 @@ public class EnemyScript : MonoBehaviour
     Animator anim;
     public bool moving;
     public bool pushing;
+    public AudioClip Steps;
+    public AudioClip hit;
+    private AudioSource audioSource;
     private void OnEnable()
     {
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         anim.SetBool("Moving", moving);
         if (this.transform.position.x < 0)
@@ -70,6 +74,7 @@ public class EnemyScript : MonoBehaviour
             moving = false;
             pushing = true;
             anim.Play("Guard_Push");
+            audioSource.PlayOneShot(hit);
         }
         else if (collision.gameObject.tag == "EnemySpawn")
         {
