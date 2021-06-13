@@ -352,9 +352,32 @@ public class GameManagerScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         gameData.invincible = false;
 
+        float timer = 60f;
 
+        while (timer > 0)
+        {
+            yield return new WaitForSecondsRealtime(Time.deltaTime);
+            timer -= Time.deltaTime;
 
+            Collider2D[] inRange = Physics2D.OverlapCircleAll(target.transform.position, 5f);
 
+            foreach (Collider2D collider in inRange)
+            {
+                if (collider.gameObject.GetComponentInParent<ControlScript>() != null)
+                {
+                    if (!gameData.botControl && inputData.spaceInput != 0)
+                    {
+                        eTask2Completed.Raise();
+                        break;
+                    }
+                }
+            }
+
+            if (timer <= 0)
+            {
+                timer += 60;
+            }
+        }
     }
 
         public void GameOver()

@@ -31,7 +31,7 @@ public class SpawnManagerScript : MonoBehaviour
         {
             int randomElement = Random.Range(0, spawnLocations.Count);
             nextSpawn = Time.time + spawnRate;
-            Instantiate(enemy, spawnLocations[randomElement].position, Quaternion.identity);
+            Instantiate(enemy, spawnLocations[randomElement].gameObject.transform.GetChild(1).transform.position, Quaternion.identity);
         }
     }
 }
