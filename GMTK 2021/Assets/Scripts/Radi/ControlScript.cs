@@ -37,13 +37,6 @@ public class ControlScript : MonoBehaviour
     public int currentMarkers;
     public List<GameObject> markers;
 
-    public AudioClip switchSucess;
-    public AudioClip switchFailed;
-    public AudioClip jump;
-    public AudioClip interact;
-    public AudioClip footstep;
-    private AudioSource audioSource;
-
     //public Collider2D topCollider;
     //public Collider2D botCollider;
 
@@ -69,7 +62,6 @@ public class ControlScript : MonoBehaviour
         inputActions.Gameplay.Enter.performed += ctx => EnterPressed();
 
         inputActions.Gameplay.Mark.performed += ctx => Clicked();
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -362,7 +354,6 @@ public class ControlScript : MonoBehaviour
         if (qteButtons.Count == 0)
         {
             gameData.quickTimeEvent = false;
-            audioSource.PlayOneShot(switchSucess);
 
             if (gameData.botControl)
             {
@@ -381,7 +372,6 @@ public class ControlScript : MonoBehaviour
     {
         qteButtons.Clear();
         eWrongButtonPressed.Raise();
-        audioSource.PlayOneShot(switchFailed);
         StartQuickTimeEvent();
     }
 

@@ -21,9 +21,12 @@ EditorUserSettings:
       value: 22424703114646680e0b0227036c780517051c6a0d262f3d2c3d143cecae2136ebf32f
       flags: 0
     RecentlyUsedScenePath-5:
+<<<<<<< HEAD
       value: 22424703114646680e0b0227036c511501572b29292623707c67083debf42d
       flags: 0
     RecentlyUsedScenePath-6:
+=======
+>>>>>>> parent of feec019 (some sounds)
       value: 22424703114646680e0b0227036c73150012146a1f2b233e2867083debf42d
       flags: 0
     vcSharedLogLevel:
