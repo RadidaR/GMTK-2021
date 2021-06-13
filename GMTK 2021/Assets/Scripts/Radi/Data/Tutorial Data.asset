@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1406cb0a711b684282666e4447e880f, type: 3}
   m_Name: Tutorial Data
   m_EditorClassIdentifier: 
-  tutorialCompleted: 1
+  tutorialCompleted: 0
   shortTime: 2.5
   mediumTime: 4
   longTime: 10
