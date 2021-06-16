@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FlipScript : MonoBehaviour
 {
-
+    public Transform target;
+    public Transform player;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,16 +15,16 @@ public class FlipScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x > FindObjectOfType<ControlScript>().gameObject.transform.position.x)
+        if (player.position.x > transform.position.x)
         {
             Vector2 scale = transform.localScale;
-            scale.x = -Mathf.Abs(transform.localScale.x);
+            scale.x = Mathf.Abs(transform.localScale.x);
             transform.localScale = scale;
         }
         else
         {
             Vector2 scale = transform.localScale;
-            scale.x = Mathf.Abs(transform.localScale.x);
+            scale.x = -Mathf.Abs(transform.localScale.x);
             transform.localScale = scale;
 
         }

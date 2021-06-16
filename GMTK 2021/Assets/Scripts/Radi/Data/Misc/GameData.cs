@@ -22,6 +22,9 @@ public class GameData : ScriptableObject, ISerializationCallbackReceiver
     
     public float moveSpeed;
     public float laneDistance;
+    public float laneSwitchDuration;
+
+    public int playerLane;
 
     void ResetGameplayValues()
     {

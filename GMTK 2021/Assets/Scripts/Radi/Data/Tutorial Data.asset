@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1406cb0a711b684282666e4447e880f, type: 3}
   m_Name: Tutorial Data
   m_EditorClassIdentifier: 
-  tutorialCompleted: 0
+  tutorialCompleted: 1
   shortTime: 2.5
   mediumTime: 4
   longTime: 10
@@ -24,10 +24,16 @@ MonoBehaviour:
   text6: Press G and complete the sequence to switch goblins.
   text7: 'You can see much better from here! '
   text8: 'You can also click on things you want to avoid to mark them! '
-  text9: 'Marks remain visible for a while, even if you switch to the other goblin. '
+  text9: 'Marks remain visible for a while, even if you switch goblins. '
+  text10: Use SPACE to jump over obstacles, to duck press C.
   task1Text1: We need to find the key!
   task1Text2: "Let\u2019s go look over there."
   task1Text3: There is the key. We gotta grab it!
   task2Text1: It's guarded!
   task2Text2: We will need a diversion.
-  task2Text3: 
+  task2Text3: To interact with something - get close, switch to top goblin and press
+    SPACE.
+  task3Text1: Good job! That should distract them!
+  task3Text2: They are on the move! Let's grab that key!
+  task4Text1: Now all that is left is to open the gates!
+  task4Text2: And the tribe can storm right in!

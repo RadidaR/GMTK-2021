@@ -41,7 +41,6 @@ public class PlayerCollisionScript : MonoBehaviour
                 gameData.hurt = true;
                 //gameData.invincible = true;
                 eHit.Raise();
-                gameData.currentHealth--;
                 hurtTimer = gameData.hurtDuration;
             }
             else if (gameData.currentHealth == 0)
@@ -49,5 +48,10 @@ public class PlayerCollisionScript : MonoBehaviour
                 eGameOver.Raise();
             }
         }
+    }
+
+    public void Damage()
+    {
+        gameData.currentHealth--;
     }
 }

@@ -19,16 +19,15 @@ public class SortingLayerScript : MonoBehaviour
         {
             originalOrder.Add(renderer.sortingOrder);
         }
-    }
 
-    private void Start()
-    {
-        UpdateSortingLayer();
         if (gameObject.tag != "Player")
         {
             AssignSortingOrder();
         }
+
+        UpdateSortingLayer();
     }
+
     void Update()
     {
         if (gameObject.tag == "Player") 
@@ -51,6 +50,11 @@ public class SortingLayerScript : MonoBehaviour
         {
             renderer.sortingLayerName = laneLayer;
         }
+
+        if (gameObject.tag == "Player")
+        {
+            gameData.playerLane = sortingLayer;
+        }
     }
 
     void AssignSortingOrder()
@@ -60,20 +64,22 @@ public class SortingLayerScript : MonoBehaviour
         {
             foreach (SpriteRenderer renderer in sprites)
             {
-                renderer.sortingOrder = -150;
+                renderer.sortingOrder = -500;
             }
         }
         else
         {
             for (int i = 0; i < sprites.Length; i++)
             {
-                if ((transform.position.y - (gameData.laneDistance * layer) > 0))
+                float pos = transform.position.y - (gameData.laneDistance * layer);
+
+                if (pos > 0)
                 {
-                    sprites[i].sortingOrder = originalOrder[i] - 30;
+                    sprites[i].sortingOrder = originalOrder[i] - Mathf.RoundToInt(100 * Mathf.Abs(pos));
                 }
-                else if ((transform.position.y - (gameData.laneDistance * layer) < 0))
+                else if (pos < 0)
                 {
-                    sprites[i].sortingOrder = originalOrder[i] + 30;
+                    sprites[i].sortingOrder = originalOrder[i] + Mathf.RoundToInt(100 * Mathf.Abs(pos));
                 }
             }
         }

@@ -14,6 +14,7 @@ public class ControlScript : MonoBehaviour
     public GameData gameData;
     //public InputData inputData;
     public bool walking;
+    public bool changingLanes;
 
     public GameEvent eJump;
     public GameEvent eDuck;
@@ -26,6 +27,7 @@ public class ControlScript : MonoBehaviour
     public GameEvent eMoving;
     public GameEvent eStopWalking;
     public GameEvent eInteract;
+    public GameEvent eHit;
 
     public int qteButtonsCount;
     public List<string> qteButtons;
@@ -36,6 +38,8 @@ public class ControlScript : MonoBehaviour
     public GameObject markerPrefab;
     public int currentMarkers;
     public List<GameObject> markers;
+
+    public LayerMask boundaryLayer;
 
     //public Collider2D topCollider;
     //public Collider2D botCollider;
@@ -68,7 +72,14 @@ public class ControlScript : MonoBehaviour
     {
         if (!gameData.frozen)
         {
-            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if (changingLanes)
+            {
+                rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+            else
+            {
+                rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+            }
 
             if (gameData.quickTimeEvent)
             {
@@ -108,8 +119,10 @@ public class ControlScript : MonoBehaviour
                     //Vector3 flip = transform.localScale;
                     //flip.x = flip.x * -inputActions.Gameplay.Horizontal.ReadValue<float>();
                     //transform.localScale = flip;
-
-                    rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));
+                    if (!changingLanes)
+                    {
+                        rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));   
+                    }
 
                     //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
                     //{
@@ -239,9 +252,33 @@ public class ControlScript : MonoBehaviour
             {
                 if (gameData.botControl)
                 {
-                    rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
+                    //rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
                     //eSwitchedLanes.Raise();
-                    StartCoroutine(SwitchedLanes());
+                    
+
+                    float direction = inputActions.Gameplay.Vertical.ReadValue<float>();
+
+                    
+
+
+                    if (gameData.playerLane == 0)
+                    {
+                        if (direction == 1)
+                        {
+                            StartCoroutine(SwitchedLanes(direction));
+                        }
+                    }
+                    else if (gameData.playerLane == 7)
+                    {
+                        if (direction == -1)
+                        {
+                            StartCoroutine(SwitchedLanes(direction));
+                        }
+                    }
+                    else
+                    {
+                        StartCoroutine(SwitchedLanes(direction));
+                    }
                 }
             }
             else
@@ -272,10 +309,111 @@ public class ControlScript : MonoBehaviour
         }
     }
 
-    IEnumerator SwitchedLanes()
+    IEnumerator SwitchedLanes(float direction)
     {
-        yield return new WaitForSecondsRealtime(0.125f);
-        eSwitchedLanes.Raise();
+        changingLanes = true;
+        walking = true;
+
+        GetComponentInChildren<AnimationManager>().PlayAnimation("Goblin Walkcycle");
+
+        //Vector2 newPos = transform.position;
+        float currentLaneY = gameData.playerLane * gameData.laneDistance;
+        float nextLaneY = (gameData.playerLane + direction) * gameData.laneDistance;
+
+        for (float i = 0; i <= gameData.laneSwitchDuration; i += Time.fixedDeltaTime)
+        {
+            yield return new WaitForSecondsRealtime(Time.fixedDeltaTime);
+
+            float newX = transform.position.x;
+            float newY; /*= Mathf.Lerp(currentLaneY, nextLaneY, i / gameData.laneSwitchDuration);*/
+
+
+            if (i / gameData.laneSwitchDuration >= 0.5)
+            {
+                RaycastHit2D wallInTheWay = Physics2D.Raycast(transform.position, new Vector2(0, direction), gameData.laneDistance, boundaryLayer);
+
+                //RaycastHit2D nextToBoundary = Physics2D.Raycast(transform.position, new Vector2(-transform.localScale.x, 0).normalized, 4, boundaryLayer);
+
+                if (!wallInTheWay)
+                {
+
+                    newY = Mathf.Lerp(currentLaneY, nextLaneY, i / gameData.laneSwitchDuration);
+
+                    //if (!nextToBoundary)
+                    //{
+                        if (transform.localScale.x < 0)
+                        {
+                            newX += 0.075f;
+                        }
+                        else if (transform.localScale.x > 0)
+                        {
+                            newX -= 0.075f;
+                        }
+                    //}
+
+                    if (i / gameData.laneSwitchDuration < 0.9f)
+                    {
+                        rigidBody.MovePosition(new Vector2(newX, newY));
+                    }
+                    else
+                    {
+                        rigidBody.MovePosition(new Vector2(newX, nextLaneY));
+                    }
+                }
+                else
+                {
+
+                    newY = Mathf.Lerp(nextLaneY, currentLaneY, i / gameData.laneSwitchDuration);
+
+                    //if (!nextToBoundary)
+                    //{
+                        if (transform.localScale.x < 0)
+                        {
+                            newX += 0.075f;
+                        }
+                        else if (transform.localScale.x > 0)
+                        {
+                            newX -= 0.075f;
+                        }
+                    //}
+
+                    if (i / gameData.laneSwitchDuration < 0.9f)
+                    {
+                        rigidBody.MovePosition(new Vector2(newX, newY));
+                    }
+                    else
+                    {
+                        rigidBody.MovePosition(new Vector2(newX, currentLaneY));
+                    }
+
+                }
+                
+                eSwitchedLanes.Raise();
+
+            }
+            else
+            {
+                newY = Mathf.Lerp(currentLaneY, nextLaneY, i / gameData.laneSwitchDuration);
+
+                if (transform.localScale.x < 0)
+                {
+                    newX += 0.075f;
+                }
+                else if (transform.localScale.x > 0)
+                {
+                    newX -= 0.075f;
+                }
+
+                rigidBody.MovePosition(new Vector2(newX, newY));
+
+            }
+
+
+        }        
+
+        changingLanes = false;
+        walking = false;
+
     }
 
     void HorizontalPressed()
@@ -317,11 +455,10 @@ public class ControlScript : MonoBehaviour
                 {
                     if (inputActions.Gameplay.Horizontal.ReadValue<float>() != 0)
                     {
-                        eMoving.Raise();
                         FlipX(inputActions.Gameplay.Horizontal.ReadValue<float>());
+                        walking = true;
                     }
 
-                    walking = true;
                 }
             }
         }
@@ -357,13 +494,13 @@ public class ControlScript : MonoBehaviour
 
             if (gameData.botControl)
             {
-                eTopControl.Raise();
                 gameData.botControl = false;
+                eTopControl.Raise();
             }
             else
             {
-                eBotControl.Raise();
                 gameData.botControl = true;
+                eBotControl.Raise();
             }
         }
     }
@@ -387,7 +524,7 @@ public class ControlScript : MonoBehaviour
 
                     Vector2 click = cam.ScreenToWorldPoint(inputActions.Gameplay.MousePosition.ReadValue<Vector2>());
 
-                    Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 1);
+                    Collider2D[] clickedOn = Physics2D.OverlapCircleAll(click, 0.2f);
 
                     if (clickedOn.Length > 0)
                     {
@@ -397,7 +534,18 @@ public class ControlScript : MonoBehaviour
                             {
                                 if (target.gameObject.GetComponentInParent<ControlScript>() == null)
                                 {
-                                    markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+                                    foreach (Transform child in target.gameObject.transform)
+                                    {
+                                        if (child.name == "MarkSpot")
+                                        {
+                                            markers.Add(Instantiate(markerPrefab, child, false));
+                                        }
+                                    }
+                                    //Transform spawnParent = target.gameObject.transform;
+                                    //Debug.Log(spawnParent.GetChild(0).name);
+                                    //markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+                                    //markers.Add(Instantiate(markerPrefab, spawnParent.GetComponentInChildren<MarkSpot>().gameObject.transform, false));
+
 
                                 }
 

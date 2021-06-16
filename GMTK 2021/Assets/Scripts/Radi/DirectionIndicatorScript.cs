@@ -5,6 +5,7 @@ using UnityEngine;
 public class DirectionIndicatorScript : MonoBehaviour
 {
     public GameObject directionIndicator;
+    public Transform player;
     public Transform target;
 
     public LayerMask indicatorLayer;
@@ -26,9 +27,9 @@ public class DirectionIndicatorScript : MonoBehaviour
                 directionIndicator.SetActive(true);
             }
 
-            Vector2 directionToTarget = target.position - transform.position;
+            Vector2 directionToTarget = player.position - target.position;
 
-            RaycastHit2D ray = Physics2D.Raycast(transform.position, directionToTarget, Vector2.Distance(transform.position, target.position), indicatorLayer);
+            RaycastHit2D ray = Physics2D.Raycast(target.position, directionToTarget, Vector2.Distance(player.position, target.position), indicatorLayer);
 
             if (ray.collider != null)
             {

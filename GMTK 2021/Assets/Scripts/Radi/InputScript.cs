@@ -31,6 +31,9 @@ public class InputScript : MonoBehaviour
 
         inputActions.Gameplay.Space.performed += ctx => inputData.spaceInput = inputActions.Gameplay.Space.ReadValue<float>();
         inputActions.Gameplay.Space.canceled += ctx => inputData.spaceInput = inputActions.Gameplay.Space.ReadValue<float>();
+
+        inputActions.Gameplay.Duck.performed += ctx => inputData.duckInput = inputActions.Gameplay.Duck.ReadValue<float>();
+        inputActions.Gameplay.Duck.canceled += ctx => inputData.duckInput = inputActions.Gameplay.Duck.ReadValue<float>();
         
         inputActions.Gameplay.SwitchControl.performed += ctx => inputData.switchInput = inputActions.Gameplay.SwitchControl.ReadValue<float>();
         inputActions.Gameplay.SwitchControl.canceled += ctx => inputData.switchInput = inputActions.Gameplay.SwitchControl.ReadValue<float>();

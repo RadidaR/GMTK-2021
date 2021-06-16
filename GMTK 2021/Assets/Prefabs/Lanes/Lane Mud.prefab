@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 1459957111675825104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1.35, z: 1}
   m_Children:
   - {fileID: 7065127531324033876}
   - {fileID: 7065127532175656110}
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 7065127532248158739}
   - component: {fileID: 7065127532248158741}
   m_Layer: 0
-  m_Name: Lane
+  m_Name: Lane Mud
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

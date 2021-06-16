@@ -17,11 +17,11 @@ public class CollisionLayerScript : MonoBehaviour
         int laneCalculation;
         if (GetComponentInParent<ControlScript>() != null)
         {           
-            laneCalculation = Mathf.RoundToInt(GetComponentInParent<ControlScript>().gameObject.transform.position.y / gameData.laneDistance);
+            laneCalculation = Mathf.Abs(Mathf.RoundToInt(GetComponentInParent<ControlScript>().gameObject.transform.position.y / gameData.laneDistance));
         }
         else
         {
-            laneCalculation = Mathf.RoundToInt(transform.position.y / gameData.laneDistance);
+            laneCalculation = Mathf.Abs(Mathf.RoundToInt(transform.position.y / gameData.laneDistance));
         }
 
         return laneCalculation;

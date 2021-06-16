@@ -9,21 +9,22 @@ public class ResizeScript : MonoBehaviour
     float maxSize = 1;
     float minSize;
 
-    float shrinkPerLane = 0.05f;
+    float shrinkPerLane = 0.075f;
     private void Start()
     {
         minSize = maxSize - (gameData.numberOfLanes * shrinkPerLane);
+        UpdateSize();
     }
     public int lane()
     {
         int laneCalculation;
         if (GetComponentInParent<ControlScript>() != null)
         {
-            laneCalculation = Mathf.RoundToInt(GetComponentInParent<ControlScript>().gameObject.transform.position.y / gameData.laneDistance);
+            laneCalculation = Mathf.Abs(Mathf.RoundToInt(GetComponentInParent<ControlScript>().gameObject.transform.position.y / gameData.laneDistance));
         }
         else
         {
-            laneCalculation = Mathf.RoundToInt(transform.position.y / gameData.laneDistance);
+            laneCalculation = Mathf.Abs(Mathf.RoundToInt(transform.position.y / gameData.laneDistance));
         }
 
         return laneCalculation;
@@ -31,22 +32,48 @@ public class ResizeScript : MonoBehaviour
 
     private void Update()
     {
-        Vector2 scale = transform.localScale;
+        //Vector2 scale = transform.localScale;
         int currentLane = lane();
-        scale.y = maxSize - currentLane * shrinkPerLane;
 
-        //scale.y = Mathf.Lerp(maxSize, minSize, (transform.position.y / gameData.numberOfLanes * gameData.laneDistance));
-        if (scale.x < 0)
+        if (gameObject.tag == "Player")
         {
-            //scale.x = -Mathf.Lerp(maxSize, minSize, (transform.position.y / gameData.numberOfLanes * gameData.laneDistance));
+            UpdateSize();
+            //Debug.Log((gameData.numberOfLanes * gameData.laneDistance).ToString());
+
+        }
+
+        
+    }
+
+    void UpdateSize()
+    {
+        Vector2 scale;
+
+        if (gameObject.tag != "Player")
+        {
+            int currentLane = lane();
+
+            scale.y = maxSize - currentLane * shrinkPerLane;
+        }
+        else
+        {
+            scale.y = Mathf.Lerp(maxSize, minSize, transform.position.y / (gameData.numberOfLanes * gameData.laneDistance));
+        }
+
+        if (transform.localScale.x < 0)
+        {
             scale.x = -scale.y;
         }
-        else if (scale.x > 0)
+        else if (transform.localScale.x > 0)
         {
             scale.x = scale.y;
-            //scale.x = Mathf.Lerp(maxSize, minSize, (transform.position.y / gameData.numberOfLanes * gameData.laneDistance));
+        }
+        else
+        {
+            return;
         }
 
         transform.localScale = scale;
+
     }
 }

@@ -9,10 +9,12 @@ public class EnemyScript : MonoBehaviour
     Animator anim;
     public bool moving;
     public bool pushing;
+
+    public GameData gameData;
     private void OnEnable()
     {
         anim = GetComponent<Animator>();
-        anim.SetBool("Moving", moving);
+        //anim.SetBool("Moving", true);
         if (this.transform.position.x < 0)
         {
             MovementDir = 1;
@@ -23,12 +25,21 @@ public class EnemyScript : MonoBehaviour
         FlipX(MovementDir);
     }
 
+    private void Start()
+    {
+        if (moving)
+        {
+            MoveTrue();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (moving)
         {
-            transform.position = transform.position + new Vector3(speed * MovementDir * Time.deltaTime,0,0);
+            //transform.position = transform.position + new Vector3(speed * MovementDir * Time.deltaTime,0,0);
+            GetComponent<Rigidbody2D>().MovePosition(transform.position + new Vector3(speed * MovementDir * Time.deltaTime, 0, 0));
             anim.Play("Guard Walk");
         }
         else
@@ -36,7 +47,6 @@ public class EnemyScript : MonoBehaviour
             if (!pushing)
             {
             anim.Play("Guard Idle");
-
             }
         }
     }
@@ -52,18 +62,24 @@ public class EnemyScript : MonoBehaviour
     {
         if (collision.gameObject.GetComponentInParent<ControlScript>() != null)
         {
-            moving = false;
-            pushing = true;
-            anim.Play("Guard_Push");
+            if (!pushing && !gameData.hurt)
+            {
+                moving = false;
+                anim.SetBool("Moving", false);
+                pushing = true;
+                anim.Play("Guard_Push");
+            }
         }
-        else if (collision.gameObject.tag == "EnemySpawn")
+        else
         {
+            Debug.Log("hit collider");
             Destroy(gameObject, 0.1f);
         }
     }
 
     public void MoveTrue()
     {
+        anim.SetBool("Moving", true);
         moving = true;
     }
     public void PushFalse()
@@ -73,15 +89,25 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Debug.Log("Hit trigger");
+
         if (collision.gameObject.GetComponentInParent<ControlScript>() != null)
         {
             moving = false;
             pushing = true;
             anim.Play("Guard_Push");
         }
-        else if (collision.gameObject.tag == "EnemySpawn")
+        else
         {
-            Destroy(gameObject, 0.1f);
+            if (collision.gameObject.layer == 15)
+            {
+                Destroy(gameObject, 0.1f);
+            }
         }
     }
+
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    Debug.Log("trigger");
+    //}
 }

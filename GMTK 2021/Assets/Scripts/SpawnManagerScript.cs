@@ -14,24 +14,26 @@ public class SpawnManagerScript : MonoBehaviour
     void Awake()
     {
         GameObject[] spawnObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
-        Debug.Log(spawnObjects.Length); 
+        //Debug.Log(spawnObjects.Length); 
 
         foreach(GameObject spawner in spawnObjects)
         {
             spawnLocations.Add(spawner.transform);
         }
-        Debug.Log(spawnLocations.Count);
+        //Debug.Log(spawnLocations.Count);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (Time.time > nextSpawn)
         {
-            int randomElement = Random.Range(0, spawnLocations.Count);
-            nextSpawn = Time.time + spawnRate;
-            Instantiate(enemy, spawnLocations[randomElement].gameObject.transform.GetChild(1).transform.position, Quaternion.identity);
+            if (spawnLocations.Count != 0)
+            {
+                int randomElement = Random.Range(0, spawnLocations.Count);
+                nextSpawn = Time.time + spawnRate;
+                Instantiate(enemy, spawnLocations[randomElement].gameObject.transform.GetChild(1).transform.position, Quaternion.identity);
+            }
         }
     }
 }
