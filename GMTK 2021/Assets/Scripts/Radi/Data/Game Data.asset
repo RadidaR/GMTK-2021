@@ -13,17 +13,18 @@ MonoBehaviour:
   m_Name: Game Data
   m_EditorClassIdentifier: 
   startingHealth: 5
-  currentHealth: 5
-  botControl: 0
+  currentHealth: 0
+  botControl: 1
   quickTimeEvent: 0
   invincible: 0
   hurt: 0
-  frozen: 0
+  frozen: 1
   hurtDuration: 3
   numberOfLanes: 8
   markerDuration: 20
   maxMarkers: 5
-  moveSpeed: 0.1
+  baseMoveSpeed: 0.15
+  currentMoveSpeed: 0.15
   laneDistance: 4
   laneSwitchDuration: 0.5
   playerLane: 0

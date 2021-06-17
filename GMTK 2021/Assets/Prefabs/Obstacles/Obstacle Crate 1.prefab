@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 7495434929788850277}
   - component: {fileID: 6067836183519403530}
   - component: {fileID: 8407443936245504728}
+  - component: {fileID: 6367976921295747379}
   m_Layer: 0
   m_Name: Obstacle Crate 1
   m_TagString: Untagged
@@ -107,6 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
+  sprite: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &6067836183519403530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +149,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &6367976921295747379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6850035512141392230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bbcfe463a8dd84f9de48c0a09afb58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 316249765919175562}
+  color: {r: 1, g: 0.21226418, b: 0.21226418, a: 1}
 --- !u!1 &8943161486714942273
 GameObject:
   m_ObjectHideFlags: 0

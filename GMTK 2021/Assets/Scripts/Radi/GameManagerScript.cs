@@ -40,45 +40,30 @@ public class GameManagerScript : MonoBehaviour
     public CinemachineVirtualCamera fireCam;
     public CinemachineVirtualCamera gateCam;
 
+    public CinemachineVirtualCamera botCam;
+    float baseOrthoBotCam;
+
+
     void Start()
     {
+        baseOrthoBotCam = botCam.m_Lens.OrthographicSize;
         StartCoroutine(Tutorial());
+    }
+
+    private void Update()
+    {
+        botCam.m_Lens.OrthographicSize = baseOrthoBotCam - (0.5f * (FindObjectOfType<ControlScript>().gameObject.transform.position.y / gameData.laneDistance));
+
     }
 
     void ShowTutorialScreen()
     {
-        if (!tutorialScreen.activeInHierarchy)
-        {
             tutorialScreen.SetActive(true);
-        }
-
-        if (tutorialPanel.color.a < 1)
-        {
-            Color visible = tutorialPanel.color;
-            visible.a += Time.deltaTime;
-            tutorialPanel.color = visible;
-
-            ShowTutorialScreen();
-            return;
-        }
     }
 
     void HideTutorialScreen()
     {
-
-        if (tutorialPanel.color.a > 0)
-        {
-            Color visible = tutorialPanel.color;
-            visible.a -= Time.deltaTime;
-            tutorialPanel.color = visible;
-            HideTutorialScreen();
-            return;
-        }
-        else
-        {
             tutorialScreen.SetActive(false);
-        }
-
     }
     IEnumerator Tutorial()
     {
@@ -96,7 +81,8 @@ public class GameManagerScript : MonoBehaviour
             float timer = tutorial.shortTime;
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
+                
                 timer -= Time.deltaTime;
 
                 Color transparency = tutorialText.color;
@@ -123,17 +109,17 @@ public class GameManagerScript : MonoBehaviour
 
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
                 if (inputData.horizontalInput != 0 || inputData.verticalInput != 0)
                 {
                     HideTutorialScreen();
-                    yield return new WaitForSecondsRealtime(1);
+                    yield return new WaitForSeconds(1);
                     break;
                 }
             }
 
-            yield return new WaitForSecondsRealtime(tutorial.shortTime);
+            yield return new WaitForSeconds(tutorial.shortTime);
 
             //////////////////////////////////////////                      To jump over obstacles press SPACE, to duck under them press C.
             tutorialText.text = tutorial.text10;
@@ -144,7 +130,7 @@ public class GameManagerScript : MonoBehaviour
             bool duckPressed = false;
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
                 if (inputData.spaceInput != 0)
                 {
@@ -169,13 +155,13 @@ public class GameManagerScript : MonoBehaviour
 
             /////////////////////////////////////////////                   Press G to switch to the other goblin for a better view.
             tutorialText.text = tutorial.text3;
-            yield return new WaitForSecondsRealtime(tutorial.shortTime);
+            yield return new WaitForSeconds(tutorial.shortTime);
 
             timer = tutorial.longTime;
 
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
                 if (gameData.quickTimeEvent)
                 {
@@ -194,7 +180,7 @@ public class GameManagerScript : MonoBehaviour
 
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
 
                 if (!gameData.quickTimeEvent)
@@ -217,7 +203,7 @@ public class GameManagerScript : MonoBehaviour
 
                 while (timer > 0)
                 {
-                    yield return new WaitForSecondsRealtime(Time.deltaTime);
+                    yield return new WaitForSeconds(Time.deltaTime);
                     timer -= Time.deltaTime;
 
                     if (inputData.enterInput != 0)
@@ -234,7 +220,7 @@ public class GameManagerScript : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSecondsRealtime(tutorial.shortTime);
+            yield return new WaitForSeconds(tutorial.shortTime);
             
             if (backOut)
             {
@@ -247,7 +233,7 @@ public class GameManagerScript : MonoBehaviour
             timer = tutorial.longTime;
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
 
                 if (!gameData.botControl)
@@ -264,7 +250,7 @@ public class GameManagerScript : MonoBehaviour
             tutorialText.text = tutorial.text7;
             ShowTutorialScreen();
 
-            yield return new WaitForSecondsRealtime(tutorial.shortTime);
+            yield return new WaitForSeconds(tutorial.shortTime);
 
             //////////////////////////////////////////                      You can also click on things you want to avoid to mark them!
             tutorialText.text = tutorial.text8;
@@ -273,7 +259,7 @@ public class GameManagerScript : MonoBehaviour
             timer = tutorial.longTime;
             while (timer > 0)
             {
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
                 timer -= Time.deltaTime;
 
                 if (FindObjectOfType<ControlScript>().markers.Count >= 2)
@@ -288,7 +274,7 @@ public class GameManagerScript : MonoBehaviour
             ////////////////////////////////////                        Marks remain visible for a while, even if you switch to the other goblin.
             tutorialText.text = tutorial.text9;
 
-            yield return new WaitForSecondsRealtime(tutorial.mediumTime);
+            yield return new WaitForSeconds(tutorial.mediumTime);
 
             if (!gameData.quickTimeEvent && !gameData.botControl)
             {
@@ -298,7 +284,7 @@ public class GameManagerScript : MonoBehaviour
                 timer = tutorial.longTime;
                 while (timer > 0)
                 {
-                    yield return new WaitForSecondsRealtime(Time.deltaTime);
+                    yield return new WaitForSeconds(Time.deltaTime);
                     timer -= Time.deltaTime;
 
                     if (gameData.botControl)
@@ -316,7 +302,7 @@ public class GameManagerScript : MonoBehaviour
         gameData.frozen = false;
         HideTutorialScreen();
 
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
         eTask1.Raise();     
 
     }
@@ -345,13 +331,13 @@ public class GameManagerScript : MonoBehaviour
 
         task1Cam.Priority = 100;
 
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
         taskText.text = tutorial.task1Text2;
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
 
         task1Cam.Priority = -100;
 
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
 
         if (wasBotControl)
         {
@@ -362,14 +348,13 @@ public class GameManagerScript : MonoBehaviour
         taskScreen.SetActive(false);
         gameData.frozen = false;
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         gameData.invincible = false;
 
         float timer = 60;
         while (timer > 0)
         {
-            //Debug.Log(timer.ToString());
-            yield return new WaitForSecondsRealtime(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime);
             timer -= Time.deltaTime;
 
             if (FindObjectOfType<ControlScript>().gameObject.transform.position.x >= taskPositions[0].position.x)
@@ -377,7 +362,7 @@ public class GameManagerScript : MonoBehaviour
                 eTask1Completed.Raise();
                 break;
             }
-            else if (timer < 0)
+            else if (timer <= 0)
             {
                 timer += 60;
             }
@@ -398,7 +383,7 @@ public class GameManagerScript : MonoBehaviour
         key.SetActive(true);
         keyCam.Priority = 100;
 
-        yield return new WaitForSecondsRealtime(tutorial.mediumTime);
+        yield return new WaitForSeconds(tutorial.mediumTime);
 
 
         //gameData.frozen = false;
@@ -419,16 +404,16 @@ public class GameManagerScript : MonoBehaviour
         taskText.text = tutorial.task2Text1;
         taskScreen.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
         keyCam.Priority = -100;
 
         fireCam.Priority = 100;
         taskText.text = tutorial.task2Text2;
         target.transform.position = taskPositions[1].position;
 
-        yield return new WaitForSecondsRealtime(tutorial.mediumTime);
+        yield return new WaitForSeconds(tutorial.mediumTime);
         fireCam.Priority = -100;
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
 
         gameData.botControl = true;
         eBotControl.Raise();
@@ -436,15 +421,17 @@ public class GameManagerScript : MonoBehaviour
 
         gameData.frozen = false;
         taskScreen.SetActive(false);
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         gameData.invincible = false;
 
         float timer = 60f;
 
         while (timer > 0)
         {
-            yield return new WaitForSecondsRealtime(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime);
             timer -= Time.deltaTime;
+
+            bool taskCompleted = false;
 
             Collider2D[] inRange = Physics2D.OverlapCircleAll(target.transform.position, 5f);
 
@@ -452,6 +439,19 @@ public class GameManagerScript : MonoBehaviour
             {
                 taskText.text = tutorial.task2Text3;
                 taskScreen.SetActive(true);
+
+                //for (int i = 0; i < inRange.Length; i++)
+                //{
+                //    if (inRange[i].GetComponentInParent<ControlScript>() != null)
+                //    {
+                //        if (!gameData.botControl && inputData.spaceInput != 0)
+                //        {
+
+                //        }
+                //    }
+                //}
+
+                
             }
 
             foreach (Collider2D collider in inRange)
@@ -462,17 +462,28 @@ public class GameManagerScript : MonoBehaviour
                     {
                         taskScreen.SetActive(false);
                         eTask2Completed.Raise();
-                        eTask3.Raise();
+                        taskCompleted = true;
                         break;
                     }
                 }
             }
 
-            if (timer <= 0)
+            if (taskCompleted)
             {
-                timer += 60;
+                break;
+            }
+            else
+            {
+                if (timer < 1)
+                {
+                    timer += 59;
+                }
             }
         }
+
+        Debug.Log("raise task 3");
+
+        eTask3.Raise();
 
     }
 
@@ -484,25 +495,26 @@ public class GameManagerScript : MonoBehaviour
     IEnumerator Task3()
     {
         Debug.Log("here");
+        bool taskCompleted = false;
         target.transform.position = key.transform.position;
         gameData.frozen = true;
         gameData.invincible = true;
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         taskText.text = tutorial.task3Text1;
 
         taskScreen.SetActive(true);
         keyCam.Priority = 100;
-        yield return new WaitForSecondsRealtime(tutorial.mediumTime);
+        yield return new WaitForSeconds(tutorial.mediumTime);
         eMoveGuards.Raise();
 
         taskText.text = tutorial.task3Text2;
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
 
         keyCam.Priority = -100;
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
         gameData.frozen = false;
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         gameData.invincible = false;
 
         taskScreen.SetActive(false);
@@ -511,7 +523,7 @@ public class GameManagerScript : MonoBehaviour
 
         while (timer > 0)
         {
-            yield return new WaitForSecondsRealtime(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime);
             timer -= Time.deltaTime;
 
             if (Vector2.Distance(target.transform.position, FindObjectOfType<ControlScript>().transform.position) < 10)
@@ -528,14 +540,29 @@ public class GameManagerScript : MonoBehaviour
                     if (!gameData.botControl && inputData.spaceInput != 0)
                     {
                         eTask3Completed.Raise();
-                        eTask4.Raise();
                         key.SetActive(false);
                         taskScreen.SetActive(false);
+                        taskCompleted = true;
                         break;
                     }
                 }
             }
+
+            if (taskCompleted)
+            {
+                break;
+            }
+            else
+            {
+                if (timer < 1)
+                {
+                    timer += 59;
+                }
+            }
         }
+
+
+        eTask4.Raise();
 
     }
 
@@ -546,28 +573,29 @@ public class GameManagerScript : MonoBehaviour
 
     IEnumerator Task4()
     {
+        bool taskCompleted = false;
         target.transform.position = taskPositions[3].position;
         gameData.frozen = true;
         gameData.invincible = true;
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         taskText.text = tutorial.task4Text1;
         taskScreen.SetActive(true);
 
         gateCam.Priority = 100;
 
-        yield return new WaitForSecondsRealtime(tutorial.mediumTime);
+        yield return new WaitForSeconds(tutorial.mediumTime);
 
         taskText.text = tutorial.task4Text2;
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
 
         gateCam.Priority = -100;
 
-        yield return new WaitForSecondsRealtime(tutorial.shortTime);
+        yield return new WaitForSeconds(tutorial.shortTime);
         taskScreen.SetActive(false);
 
         gameData.frozen = false;
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
 
         gameData.invincible = false;
 
@@ -575,7 +603,7 @@ public class GameManagerScript : MonoBehaviour
 
         while (timer > 0)
         {
-            yield return new WaitForSecondsRealtime(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime);
             timer -= Time.deltaTime;
 
             Collider2D[] inRange = Physics2D.OverlapCircleAll(target.transform.position, 5f);
@@ -586,16 +614,29 @@ public class GameManagerScript : MonoBehaviour
                     if (!gameData.botControl && inputData.spaceInput != 0)
                     {
                         eTask4Completed.Raise();
-                        yield return new WaitForSecondsRealtime(1);
+                        taskScreen.SetActive(false);
+                        taskCompleted = true;
                         break;
                     }
+                }
+            }
+
+            if (taskCompleted)
+            {
+                break;
+            }
+            else
+            {
+                if (timer < 1)
+                {
+                    timer += 59;
                 }
             }
         }
 
     }
 
-        public void GameOver()
+    public void GameOver()
     {
         gameData.frozen = true;
     }

@@ -63,6 +63,21 @@ public class PlayerSpritesScript : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            SpriteRenderer[] chestplateSprites = chestplate.GetComponentsInChildren<SpriteRenderer>();
+            SpriteRenderer[] helmetSprites = helmet.GetComponentsInChildren<SpriteRenderer>();
+
+            foreach (SpriteRenderer renderer in chestplateSprites)
+            {
+                renderer.color = Color.white;
+            }
+
+            foreach (SpriteRenderer renderer in helmetSprites)
+            {
+                renderer.color = Color.white;
+            }
+        }
     }
 
     public void RestoreSprites()

@@ -19,8 +19,9 @@ public class GameData : ScriptableObject, ISerializationCallbackReceiver
 
     public float markerDuration;
     public float maxMarkers;
-    
-    public float moveSpeed;
+
+    public float baseMoveSpeed;
+    public float currentMoveSpeed;
     public float laneDistance;
     public float laneSwitchDuration;
 

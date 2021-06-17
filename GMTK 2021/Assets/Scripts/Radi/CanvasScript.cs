@@ -3,12 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class CanvasScript : MonoBehaviour
 {
     public TextMeshProUGUI qteText;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI victoryText;
+
+    public GameObject endGameScreen;
+    public GameObject buttons;
+
+    public Image endGameBackground;
 
     public GameData gameData;
+
+    ActionMap inputAction;
+    public bool paused = false;
+    public GameObject pauseMenu;
+
+    private void Awake()
+    {
+        inputAction = new ActionMap();
+
+        inputAction.Gameplay.Escape.performed += ctx => PauseUnpause();
+    }
+
+    private void OnEnable()
+    {
+        inputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputAction.Disable();
+    }
+
+    public void PauseUnpause()
+    {
+        if (!paused)
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+            paused = true;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+            paused = false;
+        }
+    }
+
+    public void LoadScene(int scene)
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(scene);
+    }
+
     void Update()
     {
         if (gameData.quickTimeEvent)
@@ -34,4 +87,80 @@ public class CanvasScript : MonoBehaviour
 
         }
     }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverCo());
+    }
+
+    IEnumerator GameOverCo()
+    {
+        yield return new WaitForSecondsRealtime(1);
+
+        endGameScreen.SetActive(true);
+
+        float count = 0;
+
+        while (count <= 1)
+        {
+            yield return new WaitForSecondsRealtime(Time.deltaTime / 2);
+            count += Time.deltaTime / 2;
+
+            Color increaseBackgroundAlpha = endGameBackground.color;
+            increaseBackgroundAlpha.a += Time.deltaTime / 2;
+            endGameBackground.color = increaseBackgroundAlpha;
+
+            Color increaseTextAlpha = gameOverText.color;
+            increaseTextAlpha.a += Time.deltaTime / 2;
+            gameOverText.color = increaseTextAlpha;
+
+
+            if (count > 1)
+            {
+                Time.timeScale = 0;
+                break;
+            }
+        }
+
+        buttons.SetActive(true);
+    }
+
+    public void Victory()
+    {
+        StartCoroutine(VictoryCo());
+    }
+
+    IEnumerator VictoryCo()
+    {
+        yield return new WaitForSecondsRealtime(1);
+
+        endGameScreen.SetActive(true);
+
+        float count = 0;
+
+        while (count <= 1)
+        {
+            yield return new WaitForSecondsRealtime(Time.deltaTime / 2);
+            count += Time.deltaTime / 2;
+
+            Color increaseBackgroundAlpha = endGameBackground.color;
+            increaseBackgroundAlpha.a += Time.deltaTime / 2;
+            endGameBackground.color = increaseBackgroundAlpha;
+
+            Color increaseTextAlpha = victoryText.color;
+            increaseTextAlpha.a += Time.deltaTime / 2;
+            victoryText.color = increaseTextAlpha;
+
+
+            if (count > 1)
+            {
+                Time.timeScale = 0;
+                break;
+            }
+        }
+
+        buttons.SetActive(true);
+    }
+
+
 }

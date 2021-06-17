@@ -66,10 +66,13 @@ public class ControlScript : MonoBehaviour
         inputActions.Gameplay.Enter.performed += ctx => EnterPressed();
 
         inputActions.Gameplay.Mark.performed += ctx => Clicked();
+
     }
 
     private void FixedUpdate()
     {
+        gameData.currentMoveSpeed = gameData.baseMoveSpeed - (0.0125f * gameData.playerLane);
+        
         if (!gameData.frozen)
         {
             if (changingLanes)
@@ -121,7 +124,7 @@ public class ControlScript : MonoBehaviour
                     //transform.localScale = flip;
                     if (!changingLanes)
                     {
-                        rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.moveSpeed), transform.position.y));   
+                        rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.currentMoveSpeed), transform.position.y));   
                     }
 
                     //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)

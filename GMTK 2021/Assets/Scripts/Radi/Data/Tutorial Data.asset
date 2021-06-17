@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialCompleted: 1
   shortTime: 2.5
-  mediumTime: 4
+  mediumTime: 5.5
   longTime: 10
   text1: "We are the tribe\u2019s only hope of victory!"
   text2: 'Use arrow keys or WASD to move. Try not to bump into anything! '
