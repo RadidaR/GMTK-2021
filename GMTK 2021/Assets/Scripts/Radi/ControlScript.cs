@@ -554,6 +554,35 @@ public class ControlScript : MonoBehaviour
 
                             }
                         }
+                        else
+                        {
+                            foreach (Collider2D target in clickedOn)
+                            {
+                                if (target.gameObject.GetComponentInParent<ControlScript>() == null)
+                                {
+                                    foreach (Transform child in target.gameObject.transform)
+                                    {
+                                        if (child.name == "MarkSpot")
+                                        {
+                                            if (target.gameObject.GetComponentInChildren<MarkerScript>() == null)
+                                            {
+                                                Destroy(markers[0]);
+                                                markers.Remove(markers[0]);
+                                                markers.Add(Instantiate(markerPrefab, child, false));
+                                            }
+                                        }
+                                    }
+                                    //Transform spawnParent = target.gameObject.transform;
+                                    //Debug.Log(spawnParent.GetChild(0).name);
+                                    //markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
+                                    //markers.Add(Instantiate(markerPrefab, spawnParent.GetComponentInChildren<MarkSpot>().gameObject.transform, false));
+
+
+                                }
+
+                            }
+
+                        }
                         currentMarkers = markers.Count;
 
 

@@ -211,8 +211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: c45c6663fefc4b84c8eaa4cd65e3da38, type: 2}
-  sprite: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &6806943544097379051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 5836193296401336856}
-  color: {r: 1, g: 0.21226418, b: 0.21226418, a: 1}
+  color: {r: 1, g: 0.25490198, b: 0.25490198, a: 0.39215687}
+  numberOfFlashes: 3
 --- !u!1 &6723999865050279988
 GameObject:
   m_ObjectHideFlags: 0
