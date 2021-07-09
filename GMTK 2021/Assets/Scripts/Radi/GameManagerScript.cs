@@ -481,7 +481,6 @@ public class GameManagerScript : MonoBehaviour
             }
         }
 
-        Debug.Log("raise task 3");
 
         eTask3.Raise();
 
@@ -494,7 +493,6 @@ public class GameManagerScript : MonoBehaviour
 
     IEnumerator Task3()
     {
-        Debug.Log("here");
         bool taskCompleted = false;
         target.transform.position = key.transform.position;
         gameData.frozen = true;

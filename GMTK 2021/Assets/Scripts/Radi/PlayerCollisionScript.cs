@@ -13,7 +13,7 @@ public class PlayerCollisionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameData.currentHealth = gameData.startingHealth;
+        gameData.currentLife = gameData.startingLife;
     }
 
     private void Update()
@@ -36,14 +36,14 @@ public class PlayerCollisionScript : MonoBehaviour
     {
         if (!gameData.invincible)
         {
-            if (gameData.currentHealth > 0)
+            if (gameData.currentLife > 0)
             {
                 gameData.hurt = true;
                 //gameData.invincible = true;
                 eHit.Raise();
                 hurtTimer = gameData.hurtDuration;
             }
-            else if (gameData.currentHealth == 0)
+            else if (gameData.currentLife == 0)
             {
                 eGameOver.Raise();
             }
@@ -52,6 +52,6 @@ public class PlayerCollisionScript : MonoBehaviour
 
     public void Damage()
     {
-        gameData.currentHealth--;
+        gameData.currentLife--;
     }
 }

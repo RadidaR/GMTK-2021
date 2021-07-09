@@ -6,14 +6,14 @@ public class EnemyScript : MonoBehaviour
 {
     private int MovementDir;
     public float speed = 2f;
-    Animator anim;
+    public Animator anim;
     public bool moving;
     public bool pushing;
 
     public GameData gameData;
     private void OnEnable()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         //anim.SetBool("Moving", true);
         if (this.transform.position.x < 0)
         {
@@ -46,7 +46,7 @@ public class EnemyScript : MonoBehaviour
         {
             if (!pushing)
             {
-            anim.Play("Guard Idle");
+                anim.Play("Guard Idle");
             }
         }
     }

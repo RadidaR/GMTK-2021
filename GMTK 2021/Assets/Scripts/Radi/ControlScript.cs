@@ -72,7 +72,7 @@ public class ControlScript : MonoBehaviour
     private void FixedUpdate()
     {
         gameData.currentMoveSpeed = gameData.baseMoveSpeed - (0.0125f * gameData.playerLane);
-        
+
         if (!gameData.frozen)
         {
             if (changingLanes)
@@ -124,7 +124,7 @@ public class ControlScript : MonoBehaviour
                     //transform.localScale = flip;
                     if (!changingLanes)
                     {
-                        rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.currentMoveSpeed), transform.position.y));   
+                        rigidBody.MovePosition(new Vector2(transform.position.x + (inputActions.Gameplay.Horizontal.ReadValue<float>() * gameData.currentMoveSpeed), transform.position.y));
                     }
 
                     //if (inputActions.Gameplay.Horizontal.ReadValue<float>() == 0)
@@ -215,7 +215,7 @@ public class ControlScript : MonoBehaviour
 
         List<string> sequence = new List<string>();
 
-        for (int i=0; i < qteButtonsCount; i++)
+        for (int i = 0; i < qteButtonsCount; i++)
         {
             int button = Random.Range(1, 5);
             if (button == 1)
@@ -223,19 +223,19 @@ public class ControlScript : MonoBehaviour
                 string left = "Left";
                 sequence.Add(left);
             }
-            
+
             if (button == 2)
             {
                 string right = "Right";
                 sequence.Add(right);
             }
-            
+
             if (button == 3)
             {
                 string up = "Up";
                 sequence.Add(up);
             }
-            
+
             if (button == 4)
             {
                 string down = "Down";
@@ -257,11 +257,11 @@ public class ControlScript : MonoBehaviour
                 {
                     //rigidBody.MovePosition(new Vector2(transform.position.x, transform.position.y + (inputActions.Gameplay.Vertical.ReadValue<float>() * gameData.laneDistance)));
                     //eSwitchedLanes.Raise();
-                    
+
 
                     float direction = inputActions.Gameplay.Vertical.ReadValue<float>();
 
-                    
+
 
 
                     if (gameData.playerLane == 0)
@@ -344,14 +344,14 @@ public class ControlScript : MonoBehaviour
 
                     //if (!nextToBoundary)
                     //{
-                        if (transform.localScale.x < 0)
-                        {
-                            newX += 0.075f;
-                        }
-                        else if (transform.localScale.x > 0)
-                        {
-                            newX -= 0.075f;
-                        }
+                    if (transform.localScale.x < 0)
+                    {
+                        newX += 0.075f;
+                    }
+                    else if (transform.localScale.x > 0)
+                    {
+                        newX -= 0.075f;
+                    }
                     //}
 
                     if (i / gameData.laneSwitchDuration < 0.9f)
@@ -370,14 +370,14 @@ public class ControlScript : MonoBehaviour
 
                     //if (!nextToBoundary)
                     //{
-                        if (transform.localScale.x < 0)
-                        {
-                            newX += 0.075f;
-                        }
-                        else if (transform.localScale.x > 0)
-                        {
-                            newX -= 0.075f;
-                        }
+                    if (transform.localScale.x < 0)
+                    {
+                        newX += 0.075f;
+                    }
+                    else if (transform.localScale.x > 0)
+                    {
+                        newX -= 0.075f;
+                    }
                     //}
 
                     if (i / gameData.laneSwitchDuration < 0.9f)
@@ -390,7 +390,7 @@ public class ControlScript : MonoBehaviour
                     }
 
                 }
-                
+
                 eSwitchedLanes.Raise();
 
             }
@@ -412,7 +412,7 @@ public class ControlScript : MonoBehaviour
             }
 
 
-        }        
+        }
 
         changingLanes = false;
         walking = false;
@@ -560,28 +560,19 @@ public class ControlScript : MonoBehaviour
                             {
                                 if (target.gameObject.GetComponentInParent<ControlScript>() == null)
                                 {
+
                                     foreach (Transform child in target.gameObject.transform)
                                     {
                                         if (child.name == "MarkSpot")
                                         {
-                                            if (target.gameObject.GetComponentInChildren<MarkerScript>() == null)
-                                            {
-                                                Destroy(markers[0]);
-                                                markers.Remove(markers[0]);
-                                                markers.Add(Instantiate(markerPrefab, child, false));
-                                            }
+                                            Destroy(markers[0], 0);
+                                            markers.Remove(markers[0]);
+                                            markers.Add(Instantiate(markerPrefab, child, false));
                                         }
+
                                     }
-                                    //Transform spawnParent = target.gameObject.transform;
-                                    //Debug.Log(spawnParent.GetChild(0).name);
-                                    //markers.Add(Instantiate(markerPrefab, target.gameObject.transform, false));
-                                    //markers.Add(Instantiate(markerPrefab, spawnParent.GetComponentInChildren<MarkSpot>().gameObject.transform, false));
-
-
                                 }
-
                             }
-
                         }
                         currentMarkers = markers.Count;
 

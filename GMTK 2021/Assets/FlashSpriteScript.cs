@@ -6,7 +6,7 @@ public class FlashSpriteScript : MonoBehaviour
 {
     public SpriteRenderer sprite;
     public Color color;
-    public int numberOfFlashes = 2;
+    public int numberOfFlashes = 3;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,10 +21,10 @@ public class FlashSpriteScript : MonoBehaviour
     {
         for (int i = 0; i < numberOfFlashes; i++)
         {
-            sprite.color = color;   
-            yield return new WaitForSeconds(0.125f);
+            sprite.color = color;
+            yield return new WaitForSeconds(0.15f);
             sprite.color = Color.white;
-            yield return new WaitForSeconds(0.125f);
+            yield return new WaitForSeconds(0.15f);
         }
     }
 }

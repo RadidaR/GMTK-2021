@@ -23,6 +23,8 @@ public class CanvasScript : MonoBehaviour
     public bool paused = false;
     public GameObject pauseMenu;
 
+    public GameObject[] lives;
+
     private void Awake()
     {
         inputAction = new ActionMap();
@@ -38,6 +40,19 @@ public class CanvasScript : MonoBehaviour
     private void OnDisable()
     {
         inputAction.Disable();
+    }
+
+    public void UpdateLives()
+    {
+        for (int i = 0; i < gameData.currentLife; i++)
+        {
+            lives[i].SetActive(true);
+        }
+
+        for (int i = gameData.startingLife; i > gameData.currentLife - 1; i--)
+        {
+            lives[i - 1].SetActive(false);
+        }
     }
 
     public void PauseUnpause()

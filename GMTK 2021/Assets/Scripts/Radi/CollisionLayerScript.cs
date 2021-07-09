@@ -6,6 +6,8 @@ public class CollisionLayerScript : MonoBehaviour
 {
     public GameData gameData;
 
+    public SpriteRenderer sprite;
+    public Color color;
 
     private void Awake()
     {
@@ -17,7 +19,7 @@ public class CollisionLayerScript : MonoBehaviour
     {
         int laneCalculation;
         if (GetComponentInParent<ControlScript>() != null)
-        {           
+        {
             laneCalculation = Mathf.Abs(Mathf.RoundToInt(GetComponentInParent<ControlScript>().gameObject.transform.position.y / gameData.laneDistance));
         }
         else
@@ -34,5 +36,17 @@ public class CollisionLayerScript : MonoBehaviour
         gameObject.layer = layer + 6;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponentInParent<ControlScript>() != null)
+        {
+            StartCoroutine(FlashSprite());
+        }
+    }
+
+    IEnumerator FlashSprite()
+    {
+        yield return new WaitForSeconds(0.35f);
+    }
 
 }

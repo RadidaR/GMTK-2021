@@ -4,8 +4,8 @@ using UnityEngine;
 public class GameData : ScriptableObject, ISerializationCallbackReceiver
 {
     //public bool tutorialCompleted;
-    public int startingHealth;
-    public int currentHealth;
+    public int startingLife;
+    public int currentLife;
 
     public bool botControl;
     public bool quickTimeEvent;

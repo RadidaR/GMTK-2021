@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 36
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Helmet
+    m_Hash: 0
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Helmet_0
+      m_Hash: 0
+      m_Sprite: {fileID: 158714862927443851, guid: cc718b13fd18c1f4381cbd498ed5cdf5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 158714862927443851, guid: cc718b13fd18c1f4381cbd498ed5cdf5, type: 3}
+    - m_Name: Helmet_1
+      m_Hash: 0
+      m_Sprite: {fileID: 2195344971004653553, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2195344971004653553, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  - m_Name: Weapon
+    m_Hash: 0
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Weapon_0
+      m_Hash: 0
+      m_Sprite: {fileID: 7854859708143938749, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 7854859708143938749, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+    - m_Name: Weapon_1
+      m_Hash: 0
+      m_Sprite: {fileID: -610428821583139316, guid: cc718b13fd18c1f4381cbd498ed5cdf5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -610428821583139316, guid: cc718b13fd18c1f4381cbd498ed5cdf5, type: 3}
+    - m_Name: Weapon_2
+      m_Hash: 0
+      m_Sprite: {fileID: 6497766232986693742, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6497766232986693742, guid: f0b3dc21117826741bb9eb99f2d75fdf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  m_PrimaryLibraryGUID: 
